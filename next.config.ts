@@ -7,6 +7,13 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   reactStrictMode: false,
+  images: {
+    remotePatterns: [
+      { protocol: 'https', hostname: 'images.unsplash.com' },
+      { protocol: 'https', hostname: 'multiriz-educrm-main-cc9b3ae.kuberns.cloud' },
+    ],
+  },
+  allowedDevOrigins: ['*.space-z.ai'],
 };
 
 export default nextConfig;
