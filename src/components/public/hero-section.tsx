@@ -18,17 +18,17 @@ export function HeroSection() {
       {/* Decorative floating shapes */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
-          className="absolute top-20 left-10 w-72 h-72 rounded-full bg-accent/10 blur-3xl"
+          className="absolute top-10 left-5 w-48 h-48 sm:w-72 sm:h-72 rounded-full bg-accent/10 blur-3xl"
           animate={{ y: [0, -30, 0], x: [0, 20, 0] }}
           transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
-          className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-primary/15 blur-3xl"
+          className="absolute bottom-10 right-5 w-64 h-64 sm:w-96 sm:h-96 rounded-full bg-primary/15 blur-3xl"
           animate={{ y: [0, 30, 0], x: [0, -20, 0] }}
           transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
-          className="absolute top-1/2 left-1/2 w-64 h-64 rounded-full bg-amber-400/5 blur-3xl"
+          className="absolute top-1/2 left-1/2 w-48 h-48 sm:w-64 sm:h-64 rounded-full bg-amber-400/5 blur-3xl"
           animate={{ scale: [1, 1.3, 1], rotate: [0, 180, 360] }}
           transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
         />
@@ -43,54 +43,41 @@ export function HeroSection() {
         }}
       />
 
-      <div className="container mx-auto px-4 relative z-10 py-20">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10 py-16 sm:py-20">
         <div className="max-w-4xl mx-auto text-center">
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-card text-white/90 text-sm font-medium mb-8"
+            className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 rounded-full glass-card text-white/90 text-xs sm:text-sm font-medium mb-6 sm:mb-8"
           >
-            <Sparkles className="w-4 h-4 text-accent" />
+            <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent" />
             Admissions Open for 2026-27
           </motion.div>
 
-          {/* School Name — 3D animated, centered */}
+          {/* School Name — single line, 3D animated, responsive */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="school-name-3d mb-6"
+            className="school-name-3d mb-4 sm:mb-6"
           >
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black leading-[1.05] tracking-tight">
-              <span className="block text-white text-shadow-3d">
-                SP International
-              </span>
-              <span className="block text-gold-3d school-name-3d-text mt-2">
-                School
+            <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-tight tracking-tight whitespace-nowrap">
+              <span className="inline-block text-white text-shadow-3d">
+                SP International School
               </span>
             </h1>
           </motion.div>
 
-          {/* Tagline 1 */}
+          {/* Single Tagline */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-2xl lg:text-3xl text-white font-semibold mb-2"
+            className="text-base sm:text-xl lg:text-2xl text-accent font-semibold italic mb-6 sm:mb-8 px-2"
           >
-            {SCHOOL.tagline1}
-          </motion.p>
-
-          {/* Tagline 2 */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="text-lg lg:text-xl text-accent font-medium italic mb-8"
-          >
-            {SCHOOL.tagline2}
+            Dedicated to Excellence, Where Excellence is Habit
           </motion.p>
 
           {/* Info badges */}
@@ -98,18 +85,18 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="flex flex-wrap items-center justify-center gap-4 mb-10 text-white/70 text-sm"
+            className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mb-8 sm:mb-10 text-white/70 text-xs sm:text-sm"
           >
-            <span className="flex items-center gap-1.5">
-              <MapPin className="w-4 h-4 text-accent" />
+            <span className="flex items-center gap-1 sm:gap-1.5">
+              <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent" />
               Bhubaneswar, Odisha
             </span>
-            <span className="flex items-center gap-1.5">
-              <Award className="w-4 h-4 text-accent" />
+            <span className="flex items-center gap-1 sm:gap-1.5">
+              <Award className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent" />
               CBSE Curriculum
             </span>
-            <span className="flex items-center gap-1.5">
-              <Sparkles className="w-4 h-4 text-accent" />
+            <span className="flex items-center gap-1 sm:gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent" />
               Pre-Primary to Class 12
             </span>
           </motion.div>
@@ -119,21 +106,21 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            className="flex flex-wrap items-center justify-center gap-3 mb-12"
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10 sm:mb-12"
           >
             <Button
               onClick={() => setShowEnquiry(true)}
               size="lg"
-              className="bg-accent text-accent-foreground hover:bg-accent/90 px-8 py-6 text-base font-semibold pulse-glow"
+              className="bg-accent text-accent-foreground hover:bg-accent/90 px-6 sm:px-8 py-5 sm:py-6 text-sm sm:text-base font-semibold pulse-glow w-full sm:w-auto"
             >
               Apply for Admission
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
-            <Link href="/admissions">
+            <Link href="/admissions" className="w-full sm:w-auto">
               <Button
                 size="lg"
                 variant="outline"
-                className="glass-card-light border-white/30 text-foreground hover:bg-white/90 px-8 py-6 text-base font-semibold"
+                className="glass-card-light border-white/30 text-foreground hover:bg-white/90 px-6 sm:px-8 py-5 sm:py-6 text-sm sm:text-base font-semibold w-full sm:w-auto"
               >
                 Admission Details
               </Button>
@@ -145,7 +132,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.7 }}
-            className="grid grid-cols-4 gap-2 max-w-2xl mx-auto pt-8 border-t border-white/10"
+            className="grid grid-cols-4 gap-1 sm:gap-2 max-w-xl sm:max-w-2xl mx-auto pt-6 sm:pt-8 border-t border-white/10"
           >
             {[
               { value: '2', label: 'Acre Campus' },
@@ -154,8 +141,8 @@ export function HeroSection() {
               { value: '13400+', label: 'Books' },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
-                <div className="text-2xl lg:text-4xl font-bold text-accent">{stat.value}</div>
-                <div className="text-xs text-white/60">{stat.label}</div>
+                <div className="text-lg sm:text-2xl lg:text-4xl font-bold text-accent">{stat.value}</div>
+                <div className="text-[10px] sm:text-xs text-white/60">{stat.label}</div>
               </div>
             ))}
           </motion.div>

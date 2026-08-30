@@ -3,6 +3,7 @@
 export const SCHOOL = {
   name: "SP International School",
   shortName: "SPIS",
+  tagline: "Dedicated to Excellence, Where Excellence is Habit",
   tagline1: "Dedicated to Excellence",
   tagline2: "Where Excellence is Habit",
   city: "Bhubaneswar, Odisha",

@@ -34,6 +34,7 @@ export function SiteHeader() {
 
   return (
     <>
+      {/* Top bar — desktop */}
       <div className="bg-primary text-primary-foreground text-xs sm:text-sm py-2 hidden md:block">
         <div className="container mx-auto px-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -47,6 +48,16 @@ export function SiteHeader() {
           <div className="flex items-center gap-3 text-primary-foreground/80">
             <span>Bhubaneswar, Odisha</span>
           </div>
+        </div>
+      </div>
+
+      {/* Top bar — mobile (compact, just phone) */}
+      <div className="bg-primary text-primary-foreground text-xs py-1.5 md:hidden">
+        <div className="container mx-auto px-4 flex items-center justify-center gap-1.5">
+          <Phone className="w-3 h-3" />
+          <a href={`tel:${SCHOOL.phones[0]}`} className="font-medium">{SCHOOL.phones[0]}</a>
+          <span className="text-primary-foreground/50">·</span>
+          <span>Admissions Open 2026-27</span>
         </div>
       </div>
 

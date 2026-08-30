@@ -28,8 +28,8 @@ export function SiteFooter() {
               </div>
             </div>
             <p className="text-sm text-background/70 leading-relaxed mb-4">
-              {SCHOOL.tagline1}. {SCHOOL.tagline2}. A premier CBSE school committed to nurturing
-              excellence through holistic education, modern infrastructure, and values-based learning.
+              {SCHOOL.tagline}. A premier CBSE school committed to nurturing excellence through
+              holistic education, modern infrastructure, and values-based learning.
             </p>
             <div className="flex gap-2">
               {[Facebook, Instagram, Youtube].map((Icon, i) => (

@@ -26,12 +26,8 @@ export function SettingsView() {
               <div className="text-sm font-medium text-foreground mt-1">{SCHOOL.city}</div>
             </div>
             <div>
-              <Label>Tagline 1</Label>
-              <div className="text-sm font-medium text-foreground mt-1">{SCHOOL.tagline1}</div>
-            </div>
-            <div>
-              <Label>Tagline 2</Label>
-              <div className="text-sm font-medium text-foreground mt-1">{SCHOOL.tagline2}</div>
+              <Label>Tagline</Label>
+              <div className="text-sm font-medium text-foreground mt-1">{SCHOOL.tagline}</div>
             </div>
             <div>
               <Label>Email</Label>

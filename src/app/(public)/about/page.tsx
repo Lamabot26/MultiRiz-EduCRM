@@ -29,7 +29,7 @@ export default function AboutPage() {
             Where Excellence is Habit
           </h1>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            {SCHOOL.tagline1}. {SCHOOL.tagline2}. SP International School, Bhubaneswar, is a premier
+            {SCHOOL.tagline}. SP International School, Bhubaneswar, is a premier
             CBSE school committed to providing holistic education that balances academic rigour with
             character development.
           </p>
