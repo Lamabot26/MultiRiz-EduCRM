@@ -1,29 +1,12 @@
-'use client'
+import { PublicHome } from '@/components/public/public-home'
 
-import { useEffect } from 'react'
-import { useAppStore } from '@/lib/app-store'
-import { PublicSite } from '@/components/public/public-site'
-import { AdminApp } from '@/components/admin/admin-app'
+export const metadata = {
+  title: 'SP International School, Bhubaneswar | CBSE School',
+  description: 'A premier CBSE school dedicated to excellence. 2-acre campus, 6 labs, 13400+ books, smart classrooms. Admissions open for 2026-27.',
+}
+
+export const dynamic = 'force-dynamic'
 
 export default function Home() {
-  const view = useAppStore((s) => s.view)
-  const admin = useAppStore((s) => s.admin)
-
-  // Sync view with admin state on mount
-  useEffect(() => {
-    if (!admin && view === 'admin') {
-      useAppStore.getState().setView('public')
-    }
-  }, [admin, view])
-
-  // Scroll to top when switching views
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [view])
-
-  if (view === 'admin' && admin) {
-    return <AdminApp />
-  }
-
-  return <PublicSite />
+  return <PublicHome />
 }

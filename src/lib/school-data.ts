@@ -3,12 +3,12 @@
 export const SCHOOL = {
   name: "SP International School",
   shortName: "SPIS",
-  tagline: "Nurturing Excellence, Inspiring Futures",
+  tagline1: "Dedicated to Excellence",
+  tagline2: "Where Excellence is Habit",
   city: "Bhubaneswar, Odisha",
   logo: "/school-logo.jpeg",
   phones: ["9040417575", "9556101210", "9337505150"],
   email: "admissions@spinternationalschool.edu.in",
-  principal: "Susanta Kumar Parida",
   establishedNote: "Admissions Open for 2026-27",
 }
 
@@ -68,12 +68,6 @@ export const ADMISSION_TIMELINE = [
 ]
 
 export const CORE_TEAM = [
-  {
-    name: "Susanta Kumar Parida",
-    position: "Principal",
-    bio: "A visionary educator with over two decades of experience in school leadership, committed to nurturing well-rounded, future-ready learners.",
-    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop",
-  },
   {
     name: "Dr. Anjali Mohanty",
     position: "Vice Principal — Academics",

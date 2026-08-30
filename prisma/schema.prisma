@@ -1,5 +1,5 @@
-// SP International School — School Management & Admission CRM
-// SQLite schema for lead management, enquiries, and admin users
+// SP International School — Full CRM Schema (SQLite)
+// Models: AdminUser, Session, Lead, Student, ClassRoom, FeeStructure, Invoice, Payment, Notice, TeamMember
 
 generator client {
   provider = "prisma-client-js"
@@ -15,11 +15,28 @@ model AdminUser {
   username     String    @unique
   passwordHash String
   name         String
+  email        String?
   role         String    @default("ADMIN")
   isActive     Boolean   @default(true)
   lastLoginAt  DateTime?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
+
+  sessions     Session[]
+  leads        Lead[]    @relation("AssignedTo")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user      AdminUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
 }
 
 model Lead {
@@ -35,7 +52,7 @@ model Lead {
   source          String    @default("Website")
   status          String    @default("NEW")
   priority        String    @default("MEDIUM")
-  assignedTo      String?
+  assignedToId    String?
   notes           String?
   address         String?
   previousSchool  String?
@@ -44,19 +61,112 @@ model Lead {
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 
+  assignedTo      AdminUser?  @relation("AssignedTo", fields: [assignedToId], references: [id])
   interactions    Interaction[]
+  student         Student?
 }
 
 model Interaction {
-  id        String   @id @default(cuid())
-  leadId    String
-  type      String   @default("CALL")
-  notes     String
-  outcome   String?
+  id         String   @id @default(cuid())
+  leadId     String
+  type       String   @default("CALL")
+  notes      String
+  outcome    String?
   nextAction String?
-  createdAt DateTime @default(now())
+  createdAt  DateTime @default(now())
 
-  lead      Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  lead       Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+}
+
+model Student {
+  id              String   @id @default(cuid())
+  admissionNo     String   @unique
+  firstName       String
+  lastName        String
+  dateOfBirth     String?
+  gender          String?
+  phone           String?
+  email           String?
+  address         String?
+  parentName      String
+  parentPhone     String
+  parentEmail     String?
+  classId         String?
+  campus          String   @default("City Campus")
+  status          String   @default("ACTIVE")
+  admissionDate   DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  classRoom       ClassRoom?  @relation(fields: [classId], references: [id])
+  lead            Lead?       @relation(fields: [id], references: [leadId])
+  invoices        Invoice[]
+}
+
+model ClassRoom {
+  id            String   @id @default(cuid())
+  name          String   @unique
+  grade         String
+  section       String   @default("A")
+  capacity      Int      @default(30)
+  teacher       String?
+  roomNumber    String?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  students      Student[]
+  feeStructures FeeStructure[]
+}
+
+model FeeStructure {
+  id          String   @id @default(cuid())
+  name        String
+  classId     String?
+  admissionFee  Int    @default(0)
+  tuitionFee    Int    @default(0)
+  libraryFee    Int    @default(0)
+  labFee        Int    @default(0)
+  sportsFee     Int    @default(0)
+  transportFee  Int    @default(0)
+  total        Int      @default(0)
+  academicYear String   @default("2026-27")
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  classRoom    ClassRoom?  @relation(fields: [classId], references: [id])
+  invoices     Invoice[]
+}
+
+model Invoice {
+  id           String    @id @default(cuid())
+  invoiceNo    String    @unique
+  studentId    String
+  feeStructureId String?
+  totalAmount  Int       @default(0)
+  paidAmount   Int       @default(0)
+  balance      Int       @default(0)
+  status       String    @default("PENDING")
+  dueDate      DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  student      Student       @relation(fields: [studentId], references: [id])
+  feeStructure FeeStructure? @relation(fields: [feeStructureId], references: [id])
+  payments     Payment[]
+}
+
+model Payment {
+  id           String   @id @default(cuid())
+  invoiceId    String
+  amount       Int
+  method       String   @default("CASH")
+  receiptNo    String?
+  remarks      String?
+  createdAt    DateTime @default(now())
+
+  invoice      Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
 }
 
 model TeamMember {

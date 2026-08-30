@@ -1,246 +1,132 @@
-import Link from 'next/link';
-import { db } from '@/lib/db';
-import { getSchoolSettings } from '@/lib/settings';
-import { fmtDate } from '@/lib/date-utils';
-import { ArrowLeft, Image as ImageIcon, Images, Info } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+'use client'
 
-export const metadata = {
-  title: 'Gallery',
-  description:
-    'Photo albums from SP International School, Bhubaneswar — events, celebrations, classroom moments and campus life.',
-};
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Image as ImageIcon, X } from 'lucide-react'
+import { GALLERY_IMAGES } from '@/lib/school-data'
+import Image from 'next/image'
 
-export const dynamic = 'force-dynamic';
+export const dynamic = 'force-dynamic'
 
-type Search = { slug?: string };
+export default function GalleryPage() {
+  const [selected, setSelected] = useState<(typeof GALLERY_IMAGES)[0] | null>(null)
+  const categories = ['All', ...Array.from(new Set(GALLERY_IMAGES.map((g) => g.category)))]
+  const [activeCategory, setActiveCategory] = useState('All')
 
-async function fetchAlbums() {
-  return db.galleryAlbum.findMany({
-    where: { isPublished: true },
-    orderBy: [{ sortOrder: 'asc' }, { createdAt: 'desc' }],
-    include: { _count: { select: { items: true } } },
-  });
-}
-
-async function fetchAlbumWithItems(slug: string) {
-  if (!slug) return null;
-  return db.galleryAlbum.findUnique({
-    where: { slug },
-    include: {
-      items: {
-        where: { isPublished: true },
-        orderBy: { sortOrder: 'asc' },
-        select: {
-          id: true,
-          caption: true,
-          mediaFile: { select: { publicUrl: true, originalName: true } },
-        },
-      },
-    },
-  });
-}
-
-export default async function GalleryPage({ searchParams }: { searchParams: Promise<Search> }) {
-  const { slug = '' } = await searchParams;
-  const settings = await getSchoolSettings();
-
-  if (slug) {
-    let album: Awaited<ReturnType<typeof fetchAlbumWithItems>> = null;
-    try {
-      album = await fetchAlbumWithItems(slug);
-    } catch {
-      album = null;
-    }
-
-    if (!album || !album.isPublished) {
-      return (
-        <section className="mx-auto max-w-2xl px-4 py-20 lg:px-8 lg:py-28" aria-labelledby="album-missing">
-          <Card className="sp-card-shadow">
-            <CardContent className="flex flex-col items-center p-10 text-center">
-              <span className="flex h-16 w-16 items-center justify-center rounded-full bg-secondary" aria-hidden="true">
-                <Images className="h-8 w-8 text-primary" />
-              </span>
-              <h1 id="album-missing" className="mt-5 text-2xl font-bold text-primary">
-                Album not found
-              </h1>
-              <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
-                This album may have been unpublished or renamed. All published albums are
-                listed on the gallery page.
-              </p>
-              <Button asChild className="mt-6 h-11 sp-gold-gradient font-semibold text-primary hover:opacity-90">
-                <Link href="/gallery">
-                  <ArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" />
-                  Back to Gallery
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
-        </section>
-      );
-    }
-
-    return (
-      <>
-        <article className="mx-auto max-w-7xl px-4 py-12 lg:px-8 lg:py-16">
-          <nav aria-label="Breadcrumb">
-            <Link
-              href="/gallery"
-              className="inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-ring"
-            >
-              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-              All albums
-            </Link>
-          </nav>
-
-          <header className="mt-5">
-            <Badge variant="secondary" className="text-[11px] font-semibold uppercase tracking-wide">
-              {album.items.length} {album.items.length === 1 ? 'photo' : 'photos'}
-            </Badge>
-            <h1 className="mt-3 text-3xl font-extrabold text-primary sm:text-4xl">{album.title}</h1>
-            {album.description && (
-              <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">{album.description}</p>
-            )}
-          </header>
-
-          {album.items.length === 0 ? (
-            <div className="mt-10 flex flex-col items-center rounded-2xl border border-dashed border-border bg-card p-12 text-center">
-              <Images className="h-10 w-10 text-muted-foreground/50" aria-hidden="true" />
-              <p className="mt-4 font-semibold text-foreground">Photos coming soon</p>
-              <p className="mt-1 max-w-md text-sm text-muted-foreground">
-                This album has been created but photographs are still being curated —
-                they are managed from the Admin Dashboard and will appear here shortly.
-              </p>
-            </div>
-          ) : (
-            <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {album.items.map((item) => {
-                const url = item.mediaFile.publicUrl;
-                const caption = item.caption ?? item.mediaFile.originalName;
-                return (
-                  <li key={item.id} className="group">
-                    <div
-                      className="flex h-52 items-center justify-center overflow-hidden rounded-2xl border bg-card transition-all group-hover:-translate-y-1 group-hover:shadow-lg"
-                      role={url ? 'img' : undefined}
-                      aria-label={url ? caption : undefined}
-                      style={url ? { backgroundImage: `url(${url})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
-                    >
-                      {!url && <ImageIcon className="h-10 w-10 text-muted-foreground/40" aria-hidden="true" />}
-                    </div>
-                    <p className="mt-2 truncate px-1 text-sm text-muted-foreground" title={caption}>
-                      {caption}
-                    </p>
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-        </article>
-      </>
-    );
-  }
-
-  // ---- Albums grid ----
-  let albums: Awaited<ReturnType<typeof fetchAlbums>> = [];
-  try {
-    albums = await fetchAlbums();
-  } catch {
-    albums = [];
-  }
-  const coverIds = albums.map((a) => a.coverImageId).filter((id): id is string => Boolean(id));
-  let covers: { id: string; publicUrl: string | null }[] = [];
-  if (coverIds.length > 0) {
-    try {
-      covers = await db.mediaFile.findMany({
-        where: { id: { in: coverIds } },
-        select: { id: true, publicUrl: true },
-      });
-    } catch {
-      covers = [];
-    }
-  }
-  const coverMap = new Map(covers.map((c) => [c.id, c.publicUrl]));
+  const filtered = activeCategory === 'All'
+    ? GALLERY_IMAGES
+    : GALLERY_IMAGES.filter((g) => g.category === activeCategory)
 
   return (
-    <>
-      {/* Page hero */}
-      <section className="sp-hero-gradient text-primary-foreground" aria-labelledby="gallery-hero">
-        <div className="mx-auto max-w-7xl px-4 py-14 lg:px-8 lg:py-20">
-          <p className="text-sm font-semibold uppercase tracking-widest text-accent-foreground/90">Gallery</p>
-          <h1 id="gallery-hero" className="mt-2 max-w-3xl text-4xl font-extrabold sm:text-5xl">
-            Moments that make a school year
-          </h1>
-          <p className="mt-4 max-w-2xl text-primary-foreground/85">
-            Assemblies, annual days, science fairs, sports meets and the quiet everyday
-            joy in between — browse albums from life at {settings.schoolName}.
-          </p>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-4 py-12 lg:px-8 lg:py-16" aria-labelledby="albums-heading">
-        <h2 id="albums-heading" className="sr-only">
-          Photo albums
-        </h2>
-        {albums.length === 0 ? (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {['Annual Day', 'Sports Meet', 'Science Fair', 'Cultural Fest', 'Classroom Moments', 'Trips & Excursions'].map(
-              (label) => (
-                <div
-                  key={label}
-                  className="flex h-48 flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-border bg-card p-6 text-center"
-                >
-                  <ImageIcon className="h-8 w-8 text-muted-foreground/50" aria-hidden="true" />
-                  <p className="font-medium text-foreground">{label}</p>
-                  <p className="text-xs text-muted-foreground">Album placeholder — photos coming soon</p>
-                </div>
-              ),
-            )}
-            <p className="col-span-full mt-4 flex items-center justify-center gap-2 text-center text-sm text-muted-foreground">
-              <Info className="h-4 w-4 shrink-0" aria-hidden="true" />
-              Albums published from the Admin Dashboard will appear here automatically.
-            </p>
+    <div className="py-16 lg:py-24">
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-10"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+            <ImageIcon className="w-4 h-4" />
+            Gallery
           </div>
-        ) : (
-          <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {albums.map((album) => {
-              const coverUrl = album.coverImageId ? (coverMap.get(album.coverImageId) ?? null) : null;
-              return (
-                <li key={album.id}>
-                  <Link
-                    href={`/gallery?slug=${album.slug}`}
-                    className="group block overflow-hidden rounded-2xl border bg-card sp-card-shadow transition-all hover:-translate-y-1 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-ring"
-                  >
-                    <div
-                      className="relative flex h-52 items-center justify-center sp-hero-gradient"
-                      role={coverUrl ? 'img' : undefined}
-                      aria-label={coverUrl ? `Cover of album ${album.title}` : undefined}
-                      style={coverUrl ? { backgroundImage: `url(${coverUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
-                    >
-                      {!coverUrl && <ImageIcon className="h-12 w-12 text-white/40" aria-hidden="true" />}
-                      <Badge className="absolute right-3 top-3 bg-black/40 text-xs font-semibold text-white backdrop-blur">
-                        {album._count.items} {album._count.items === 1 ? 'photo' : 'photos'}
-                      </Badge>
-                    </div>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-lg text-primary group-hover:underline">{album.title}</CardTitle>
-                      {album.description && (
-                        <CardDescription className="line-clamp-2">{album.description}</CardDescription>
-                      )}
-                    </CardHeader>
-                    <CardContent className="pt-0">
-                      <p className="text-xs text-muted-foreground">
-                        Updated {fmtDate(album.updatedAt)} · View album
-                      </p>
-                    </CardContent>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
+          <h1 className="text-4xl lg:text-5xl font-bold text-foreground mb-4">
+            Life at SP International School
+          </h1>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            A glimpse into our vibrant campus life — learning, playing, creating, and growing together.
+          </p>
+        </motion.div>
+
+        {/* Category filter */}
+        <div className="flex flex-wrap justify-center gap-2 mb-8">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                activeCategory === cat
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-white text-foreground/70 hover:bg-primary/10 hover:text-primary border border-border'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {/* Gallery grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-4">
+          {filtered.map((image, i) => (
+            <motion.div
+              key={image.src}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: (i % 8) * 0.05 }}
+              whileHover={{ y: -5 }}
+              onClick={() => setSelected(image)}
+              className={`group relative rounded-2xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-shadow ${
+                i % 5 === 0 ? 'md:col-span-2 md:row-span-2' : ''
+              }`}
+            >
+              <div className={`relative ${i % 5 === 0 ? 'h-64 md:h-full' : 'h-40 md:h-48'}`}>
+                <Image
+                  src={image.src}
+                  alt={image.caption}
+                  fill
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-60 group-hover:opacity-90 transition-opacity" />
+                <div className="absolute bottom-0 left-0 right-0 p-3">
+                  <div className="text-[10px] text-white/70 mb-0.5">{image.category}</div>
+                  <div className="text-sm text-white font-semibold">{image.caption}</div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      {/* Lightbox */}
+      <AnimatePresence>
+        {selected && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelected(null)}
+            className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4"
+          >
+            <button
+              onClick={() => setSelected(null)}
+              className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <motion.div
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.8 }}
+              className="relative w-full max-w-4xl h-[70vh]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Image
+                src={selected.src}
+                alt={selected.caption}
+                fill
+                sizes="100vw"
+                className="object-contain"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-center">
+                <div className="text-accent text-sm font-medium mb-1">{selected.category}</div>
+                <div className="text-white text-xl font-bold">{selected.caption}</div>
+              </div>
+            </motion.div>
+          </motion.div>
         )}
-      </section>
-    </>
-  );
+      </AnimatePresence>
+    </div>
+  )
 }

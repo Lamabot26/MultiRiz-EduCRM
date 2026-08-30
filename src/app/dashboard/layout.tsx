@@ -1,17 +1,19 @@
-import type { Metadata } from 'next';
-import { requireUser } from '@/lib/auth-guard';
-import { DashboardShell } from '@/components/dashboard/shell';
+import { redirect } from 'next/navigation'
+import { getAuthUser } from '@/lib/auth'
+import { DashboardShell } from '@/components/admin/dashboard-shell'
 
-export const metadata: Metadata = {
-  title: 'Dashboard',
-  description: 'SP International School staff dashboard',
-};
+export const dynamic = 'force-dynamic'
 
-// Staff dashboard layout — requires login, wraps children in the
-// navy-sidebar shell (fixed sidebar on lg+, Sheet drawer on mobile).
 export default async function DashboardLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
-  const user = await requireUser();
-  return <DashboardShell user={user}>{children}</DashboardShell>;
+}: {
+  children: React.ReactNode
+}) {
+  const user = await getAuthUser()
+
+  if (!user) {
+    redirect('/login?callbackUrl=/dashboard')
+  }
+
+  return <DashboardShell user={user}>{children}</DashboardShell>
 }

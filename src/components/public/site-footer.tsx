@@ -2,17 +2,10 @@
 
 import { Phone, Mail, MapPin, Facebook, Instagram, Youtube, Shield } from 'lucide-react'
 import { SCHOOL, CAMPUSES } from '@/lib/school-data'
-import { useAppStore } from '@/lib/app-store'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export function SiteFooter() {
-  const { setShowAdminLogin } = useAppStore()
-
-  const scrollTo = (href: string) => {
-    const el = document.querySelector(href)
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
-
   return (
     <footer className="bg-foreground text-background">
       <div className="container mx-auto px-4 py-12">
@@ -25,7 +18,7 @@ export function SiteFooter() {
                   src={SCHOOL.logo}
                   alt="SP International School Logo"
                   fill
-                  sizes="100%"
+                  sizes="40px"
                   className="object-cover"
                 />
               </div>
@@ -35,8 +28,8 @@ export function SiteFooter() {
               </div>
             </div>
             <p className="text-sm text-background/70 leading-relaxed mb-4">
-              A premier CBSE school committed to nurturing excellence and inspiring futures through
-              holistic education, modern infrastructure, and values-based learning.
+              {SCHOOL.tagline1}. {SCHOOL.tagline2}. A premier CBSE school committed to nurturing
+              excellence through holistic education, modern infrastructure, and values-based learning.
             </p>
             <div className="flex gap-2">
               {[Facebook, Instagram, Youtube].map((Icon, i) => (
@@ -58,20 +51,20 @@ export function SiteFooter() {
             </h3>
             <ul className="space-y-2 text-sm">
               {[
-                { label: 'About Us', href: '#about' },
-                { label: 'Academics', href: '#academics' },
-                { label: 'Facilities', href: '#facilities' },
-                { label: 'Core Team', href: '#team' },
-                { label: 'Virtual Tour', href: '#tour' },
-                { label: 'Gallery', href: '#gallery' },
+                { label: 'About Us', href: '/about' },
+                { label: 'Academics', href: '/academics' },
+                { label: 'Facilities', href: '/facilities' },
+                { label: 'Admissions', href: '/admissions' },
+                { label: 'Gallery', href: '/gallery' },
+                { label: 'Contact Us', href: '/contact' },
               ].map((link) => (
                 <li key={link.href}>
-                  <button
-                    onClick={() => scrollTo(link.href)}
+                  <Link
+                    href={link.href}
                     className="text-background/70 hover:text-accent transition-colors"
                   >
                     {link.label}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -84,12 +77,9 @@ export function SiteFooter() {
             </h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <button
-                  onClick={() => scrollTo('#admissions')}
-                  className="text-background/70 hover:text-accent transition-colors"
-                >
-                  Admission Timeline 2026-27
-                </button>
+                <Link href="/admissions" className="text-background/70 hover:text-accent transition-colors">
+                  Admission Process 2026-27
+                </Link>
               </li>
               <li className="text-background/70">
                 <span className="block text-xs text-background/50 mb-1">Admission Helpline</span>
@@ -104,13 +94,13 @@ export function SiteFooter() {
                 ))}
               </li>
               <li>
-                <button
-                  onClick={() => setShowAdminLogin(true)}
+                <Link
+                  href="/login"
                   className="inline-flex items-center gap-1.5 text-background/70 hover:text-accent transition-colors mt-2"
                 >
                   <Shield className="w-3.5 h-3.5" />
                   Admin Login
-                </button>
+                </Link>
               </li>
             </ul>
           </div>
@@ -149,9 +139,9 @@ export function SiteFooter() {
             © {new Date().getFullYear()} SP International School, Bhubaneswar. All rights reserved.
           </div>
           <div className="flex items-center gap-4 text-xs text-background/60">
-            <span>Principal: {SCHOOL.principal}</span>
-            <span>·</span>
             <span>CBSE School</span>
+            <span>·</span>
+            <span>Admissions Open 2026-27</span>
           </div>
         </div>
       </div>

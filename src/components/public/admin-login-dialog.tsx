@@ -1,8 +1,9 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Shield, Lock, User, ArrowRight, Eye, EyeOff } from 'lucide-react'
+import { X, Shield, Lock, User, ArrowRight, Eye, EyeOff, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -10,42 +11,45 @@ import { useAppStore } from '@/lib/app-store'
 import { toast } from 'sonner'
 
 export function AdminLoginDialog() {
-  const { showAdminLogin, setShowAdminLogin, setAdmin, setView } = useAppStore()
+  const { showAdminLogin, setShowAdminLogin } = useAppStore()
+  const router = useRouter()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError(null)
+
     if (!username || !password) {
-      toast.error('Please enter username and password')
+      setError('Please enter username and password')
       return
     }
 
     setLoading(true)
     try {
-      const res = await fetch('/api/admin/login', {
+      const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       })
 
+      const data = await res.json()
+
       if (!res.ok) {
-        const data = await res.json()
-        throw new Error(data.error || 'Login failed')
+        setError(data.error || 'Invalid credentials')
+        setLoading(false)
+        return
       }
 
-      const data = await res.json()
-      setAdmin(data.admin)
-      setView('admin')
+      toast.success(`Welcome back, ${data.user.name}!`)
       setShowAdminLogin(false)
-      toast.success(`Welcome back, ${data.admin.name}!`)
-      setUsername('')
-      setPassword('')
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Login failed')
-    } finally {
+      router.push('/dashboard')
+      router.refresh()
+    } catch {
+      setError('Failed to connect to server')
       setLoading(false)
     }
   }
@@ -67,7 +71,6 @@ export function AdminLoginDialog() {
             onClick={(e) => e.stopPropagation()}
             className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
           >
-            {/* Header */}
             <div className="bg-gradient-to-br from-primary via-primary to-primary/80 text-primary-foreground p-8 text-center relative">
               <button
                 onClick={() => setShowAdminLogin(false)}
@@ -84,16 +87,20 @@ export function AdminLoginDialog() {
               </p>
             </div>
 
-            {/* Form */}
             <form onSubmit={handleLogin} className="p-6 space-y-4">
+              {error && (
+                <div className="flex items-start gap-2 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
+                  <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                  <span>{error}</span>
+                </div>
+              )}
+
               <div>
-                <Label htmlFor="username" className="text-sm font-medium">
-                  Username
-                </Label>
+                <Label htmlFor="dialog-username" className="text-sm font-medium">Username</Label>
                 <div className="relative mt-1">
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <Input
-                    id="username"
+                    id="dialog-username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="Enter username"
@@ -104,13 +111,11 @@ export function AdminLoginDialog() {
               </div>
 
               <div>
-                <Label htmlFor="password" className="text-sm font-medium">
-                  Password
-                </Label>
+                <Label htmlFor="dialog-password" className="text-sm font-medium">Password</Label>
                 <div className="relative mt-1">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <Input
-                    id="password"
+                    id="dialog-password"
                     type={showPassword ? 'text' : 'password'}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -133,21 +138,13 @@ export function AdminLoginDialog() {
                 disabled={loading}
                 className="w-full bg-primary text-primary-foreground py-2.5"
               >
-                {loading ? (
-                  'Signing in...'
-                ) : (
+                {loading ? 'Signing in...' : (
                   <>
                     Sign In to Dashboard
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </>
                 )}
               </Button>
-
-              <div className="text-center pt-2">
-                <p className="text-xs text-muted-foreground">
-                  Authorized personnel only. All actions are logged.
-                </p>
-              </div>
             </form>
           </motion.div>
         </motion.div>

@@ -1,117 +1,97 @@
-import bcrypt from 'bcryptjs';
-import { Prisma } from '@prisma/client';
-import { db } from '@/lib/db';
-import { ok, fail, withApi, parseBody, auditFrom, writeAudit, ApiError } from '@/lib/api-helpers';
-import { hasPermission, isStaff } from '@/lib/auth-guard';
-import { PERMISSIONS } from '@/lib/rbac';
-import { userCreateSchema } from '@/lib/validation';
-import { ROLES } from '@/lib/constants';
+import { NextRequest, NextResponse } from 'next/server'
+import { db } from '@/lib/db'
+import { getAuthUser } from '@/lib/auth'
+import bcrypt from 'bcryptjs'
 
-// =====================================================================
-// GET  /api/users?role=TEACHER — full list for users.manage; any other
-//      staff gets minimal fields (id, name, roles, isActive) so teacher
-//      pickers work without leaking account details.
-// POST /api/users — create (users.manage). bcrypt(12). Duplicate email
-//      → 409. Audited: USER_CREATE.
-// =====================================================================
+export async function GET() {
+  const user = await getAuthUser()
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-const VALID_ROLES = new Set<string>(Object.values(ROLES));
+  const users = await db.adminUser.findMany({
+    orderBy: { createdAt: 'desc' },
+    select: {
+      id: true,
+      username: true,
+      name: true,
+      email: true,
+      role: true,
+      isActive: true,
+      lastLoginAt: true,
+      createdAt: true,
+    },
+  })
+  return NextResponse.json({ users })
+}
 
-export const GET = withApi(
-  async (req, { user }) => {
-    if (!user) return fail('Authentication required', 401);
-    if (!isStaff(user)) return fail('You do not have permission to perform this action', 403);
-    const canManage = hasPermission(user, PERMISSIONS.USERS_MANAGE);
+export async function POST(req: NextRequest) {
+  const currentUser = await getAuthUser()
+  if (!currentUser) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const role = new URL(req.url).searchParams.get('role') ?? '';
+  const body = await req.json()
 
-    const users = await db.user.findMany({
-      where: {
-        isActive: true,
-        ...(role ? { userRoles: { some: { role: { key: role } } } } : {}),
-      },
-      include: { userRoles: { include: { role: { select: { key: true, name: true } } } } },
-      orderBy: { name: 'asc' },
-      take: 500,
-    });
+  if (!body.username || !body.password || !body.name) {
+    return NextResponse.json({ error: 'Username, password, and name are required' }, { status: 400 })
+  }
 
-    if (!canManage) {
-      return ok(users.map((u) => ({
-        id: u.id, name: u.name, roles: u.userRoles.map((ur) => ur.role.key), isActive: u.isActive,
-      })));
-    }
+  const existing = await db.adminUser.findUnique({ where: { username: body.username } })
+  if (existing) {
+    return NextResponse.json({ error: 'Username already exists' }, { status: 400 })
+  }
 
-    return ok(users.map((u) => ({
-      id: u.id,
-      name: u.name,
-      email: u.email,
-      phone: u.phone,
-      isActive: u.isActive,
-      lastLoginAt: u.lastLoginAt,
-      failedLoginCount: u.failedLoginCount,
-      lockedUntil: u.lockedUntil,
-      roles: u.userRoles.map((ur) => ur.role.key),
-      createdAt: u.createdAt,
-    })));
-  },
-);
+  const passwordHash = await bcrypt.hash(body.password, 10)
+  const newUser = await db.adminUser.create({
+    data: {
+      username: body.username,
+      passwordHash,
+      name: body.name,
+      email: body.email || null,
+      role: body.role || 'ADMIN',
+      isActive: body.isActive ?? true,
+    },
+    select: { id: true, username: true, name: true, email: true, role: true, isActive: true, createdAt: true },
+  })
 
-export const POST = withApi(
-  async (req, { user, ip }) => {
-    if (!user) return fail('Authentication required', 401);
-    if (!hasPermission(user, PERMISSIONS.USERS_MANAGE)) {
-      return fail('You do not have permission to perform this action', 403);
-    }
+  return NextResponse.json({ user: newUser }, { status: 201 })
+}
 
-    const body = await parseBody(req, userCreateSchema);
-    const invalid = body.roles.filter((r) => !VALID_ROLES.has(r));
-    if (invalid.length) throw new ApiError(`Unknown role(s): ${invalid.join(', ')}`, 422);
+export async function PUT(req: NextRequest) {
+  const currentUser = await getAuthUser()
+  if (!currentUser) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const email = body.email.toLowerCase().trim();
-    const exists = await db.user.findUnique({ where: { email }, select: { id: true } });
-    if (exists) throw new ApiError('A user with this email already exists', 409);
+  const body = await req.json()
+  const { id, password, ...updateData } = body
+  if (!id) return NextResponse.json({ error: 'ID required' }, { status: 400 })
 
-    const roleRows = await db.role.findMany({ where: { key: { in: body.roles } } });
-    if (roleRows.length === 0) throw new ApiError('No valid roles found — run the seed first', 422);
+  const cleanedData: Record<string, unknown> = {}
+  for (const [k, v] of Object.entries(updateData)) {
+    if (v !== undefined) cleanedData[k] = v
+  }
 
-    const passwordHash = await bcrypt.hash(body.password, 12);
+  if (password) {
+    cleanedData.passwordHash = await bcrypt.hash(password, 10)
+  }
 
-    let created;
-    try {
-      created = await db.user.create({
-        data: {
-          email,
-          name: body.name,
-          phone: body.phone ?? null,
-          passwordHash,
-          userRoles: {
-            create: roleRows.map((r) => ({ roleId: r.id, assignedBy: user.id })),
-          },
-        },
-        include: { userRoles: { include: { role: { select: { key: true, name: true } } } } },
-      });
-    } catch (err) {
-      if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
-        throw new ApiError('A user with this email already exists', 409);
-      }
-      throw err;
-    }
+  const user = await db.adminUser.update({
+    where: { id },
+    data: cleanedData,
+    select: { id: true, username: true, name: true, email: true, role: true, isActive: true, lastLoginAt: true, createdAt: true },
+  })
 
-    await writeAudit({
-      ...auditFrom(user, ip, req),
-      action: 'USER_CREATE',
-      entityType: 'user',
-      entityId: created.id,
-      after: { email: created.email, name: created.name, roles: created.userRoles.map((ur) => ur.role.key), isActive: created.isActive },
-    });
+  return NextResponse.json({ user })
+}
 
-    return ok({
-      id: created.id,
-      name: created.name,
-      email: created.email,
-      phone: created.phone,
-      isActive: created.isActive,
-      roles: created.userRoles.map((ur) => ur.role.key),
-    }, { status: 201 });
-  },
-);
+export async function DELETE(req: NextRequest) {
+  const currentUser = await getAuthUser()
+  if (!currentUser) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+  const { searchParams } = new URL(req.url)
+  const id = searchParams.get('id')
+  if (!id) return NextResponse.json({ error: 'ID required' }, { status: 400 })
+
+  if (id === currentUser.id) {
+    return NextResponse.json({ error: 'Cannot delete yourself' }, { status: 400 })
+  }
+
+  await db.adminUser.delete({ where: { id } })
+  return NextResponse.json({ success: true })
+}

@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Shield, Phone } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -9,33 +11,26 @@ import { useAppStore } from '@/lib/app-store'
 import Image from 'next/image'
 
 const NAV_ITEMS = [
-  { label: 'Home', href: '#home' },
-  { label: 'About', href: '#about' },
-  { label: 'Academics', href: '#academics' },
-  { label: 'Facilities', href: '#facilities' },
-  { label: 'Team', href: '#team' },
-  { label: 'Tour', href: '#tour' },
-  { label: 'Gallery', href: '#gallery' },
-  { label: 'Admissions', href: '#admissions' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about' },
+  { label: 'Academics', href: '/academics' },
+  { label: 'Facilities', href: '/facilities' },
+  { label: 'Admissions', href: '/admissions' },
+  { label: 'Gallery', href: '/gallery' },
+  { label: 'Contact', href: '/contact' },
 ]
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const { setShowAdminLogin, setShowEnquiry } = useAppStore()
+  const pathname = usePathname()
+  const { setShowEnquiry } = useAppStore()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
-
-  const scrollTo = (href: string) => {
-    setMobileOpen(false)
-    const el = document.querySelector(href)
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
 
   return (
     <>
@@ -64,16 +59,13 @@ export function SiteHeader() {
       >
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16 lg:h-20">
-            <button
-              onClick={() => scrollTo('#home')}
-              className="flex items-center gap-3 group"
-            >
+            <Link href="/" className="flex items-center gap-3 group">
               <div className="relative w-10 h-10 lg:w-12 lg:h-12 rounded-full overflow-hidden ring-2 ring-primary/20 ring-offset-2 group-hover:ring-accent transition-all">
                 <Image
                   src={SCHOOL.logo}
                   alt="SP International School Logo"
                   fill
-                  sizes="100%"
+                  sizes="48px"
                   className="object-cover"
                   priority
                 />
@@ -86,30 +78,35 @@ export function SiteHeader() {
                   School · Bhubaneswar
                 </div>
               </div>
-            </button>
+            </Link>
 
             <nav className="hidden lg:flex items-center gap-0.5">
               {NAV_ITEMS.map((item) => (
-                <button
+                <Link
                   key={item.href}
-                  onClick={() => scrollTo(item.href)}
-                  className="px-3 py-2 text-sm font-medium text-foreground/80 hover:text-primary hover:bg-primary/5 rounded-md transition-colors"
+                  href={item.href}
+                  className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                    pathname === item.href
+                      ? 'text-primary bg-primary/5'
+                      : 'text-foreground/80 hover:text-primary hover:bg-primary/5'
+                  }`}
                 >
                   {item.label}
-                </button>
+                </Link>
               ))}
             </nav>
 
             <div className="flex items-center gap-2">
-              <Button
-                onClick={() => setShowAdminLogin(true)}
-                variant="outline"
-                size="sm"
-                className="hidden sm:flex items-center gap-1.5 border-primary/30 text-primary hover:bg-primary/5"
-              >
-                <Shield className="w-4 h-4" />
-                Admin Login
-              </Button>
+              <Link href="/login">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="hidden sm:flex items-center gap-1.5 border-primary/30 text-primary hover:bg-primary/5"
+                >
+                  <Shield className="w-4 h-4" />
+                  Admin Login
+                </Button>
+              </Link>
               <Button
                 onClick={() => setShowEnquiry(true)}
                 size="sm"
@@ -139,27 +136,26 @@ export function SiteHeader() {
             >
               <div className="container mx-auto px-4 py-3 space-y-1">
                 {NAV_ITEMS.map((item) => (
-                  <button
+                  <Link
                     key={item.href}
-                    onClick={() => scrollTo(item.href)}
-                    className="block w-full text-left px-3 py-2.5 text-sm font-medium text-foreground/80 hover:text-primary hover:bg-primary/5 rounded-md transition-colors"
+                    href={item.href}
+                    onClick={() => setMobileOpen(false)}
+                    className={`block w-full text-left px-3 py-2.5 text-sm font-medium rounded-md transition-colors ${
+                      pathname === item.href
+                        ? 'text-primary bg-primary/5'
+                        : 'text-foreground/80 hover:text-primary hover:bg-primary/5'
+                    }`}
                   >
                     {item.label}
-                  </button>
+                  </Link>
                 ))}
                 <div className="pt-2 border-t border-border flex flex-col gap-2">
-                  <Button
-                    onClick={() => {
-                      setMobileOpen(false)
-                      setShowAdminLogin(true)
-                    }}
-                    variant="outline"
-                    size="sm"
-                    className="w-full justify-center"
-                  >
-                    <Shield className="w-4 h-4 mr-1.5" />
-                    Admin Login
-                  </Button>
+                  <Link href="/login" onClick={() => setMobileOpen(false)}>
+                    <Button variant="outline" size="sm" className="w-full justify-center">
+                      <Shield className="w-4 h-4 mr-1.5" />
+                      Admin Login
+                    </Button>
+                  </Link>
                   <Button
                     onClick={() => {
                       setMobileOpen(false)
