@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: 'https', hostname: 'images.unsplash.com' },
       { protocol: 'https', hostname: 'multiriz-educrm-main-cc9b3ae.kuberns.cloud' },
+      { protocol: 'https', hostname: 'upload.wikimedia.org' },
     ],
   },
   allowedDevOrigins: ['*.space-z.ai'],

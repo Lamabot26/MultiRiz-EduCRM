@@ -14,6 +14,7 @@ const NAV_ITEMS = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   { label: 'Academics', href: '/academics' },
+  { label: 'NEET/JEE Preparation', href: '/neet-jee' },
   { label: 'Facilities', href: '/facilities' },
   { label: 'Admissions', href: '/admissions' },
   { label: 'Gallery', href: '/gallery' },
@@ -84,11 +85,11 @@ export function SiteHeader() {
                   priority
                 />
               </div>
-              <div className="text-left">
+              <div className="text-left min-w-0">
                 <div className="font-bold text-sm lg:text-lg text-primary leading-tight whitespace-nowrap">
                   SP International School
                 </div>
-                <div className="text-[10px] lg:text-xs text-muted-foreground font-medium leading-tight">
+                <div className="text-[10px] lg:text-xs text-muted-foreground font-medium leading-tight hidden sm:block">
                   Bhubaneswar · Est. 2021 · CBSE
                 </div>
               </div>

@@ -54,6 +54,7 @@ export function SiteFooter() {
               {[
                 { label: 'About Us', href: '/about' },
                 { label: 'Academics', href: '/academics' },
+                { label: 'NEET/JEE Preparation', href: '/neet-jee' },
                 { label: 'Facilities', href: '/facilities' },
                 { label: 'Admissions', href: '/admissions' },
                 { label: 'Gallery', href: '/gallery' },

@@ -14,8 +14,12 @@ import {
   Dumbbell,
   Languages,
   Mountain,
+  Brain,
+  Target,
+  ChartNoAxesColumn,
+  Clock,
 } from 'lucide-react'
-import { PROGRAMMES, MORAL_VALUE_THEMES } from '@/lib/school-data'
+import { PROGRAMMES, MORAL_VALUE_THEMES, AI_LEARNING } from '@/lib/school-data'
 import { PageHero } from '@/components/public/page-hero'
 
 const ICON_MAP: Record<string, React.ElementType> = {
@@ -23,6 +27,13 @@ const ICON_MAP: Record<string, React.ElementType> = {
   pencil: PencilRuler,
   compass: Compass,
   graduation: GraduationCap,
+}
+
+const AI_ICON_MAP: Record<string, React.ElementType> = {
+  brain: Brain,
+  target: Target,
+  chart: ChartNoAxesColumn,
+  clock: Clock,
 }
 
 const SUBJECTS = [
@@ -162,6 +173,62 @@ export default function AcademicsPage() {
               </div>
             </motion.div>
           </div>
+
+          {/* AI-based learning system */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-20"
+          >
+            <div className="text-center mb-10">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+                <Brain className="w-4 h-4" /> AI-Based Learning System
+              </div>
+              <h2 className="text-2xl lg:text-3xl font-bold text-foreground mb-3">{AI_LEARNING.headline}</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                {AI_LEARNING.intro}
+              </p>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+              {AI_LEARNING.features.map((feat, i) => {
+                const Icon = AI_ICON_MAP[feat.icon] || Brain
+                return (
+                  <motion.div
+                    key={feat.title}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.08 }}
+                    className="bg-gradient-to-br from-white to-muted/40 rounded-2xl border border-border shadow-sm p-6"
+                  >
+                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 text-primary mb-4">
+                      <Icon className="w-6 h-6" />
+                    </div>
+                    <h3 className="font-bold text-foreground mb-2">{feat.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{feat.description}</p>
+                  </motion.div>
+                )
+              })}
+            </div>
+
+            {/* How it works */}
+            <div className="rounded-2xl bg-gradient-to-br from-[#0a3d2e] to-[#06301f] text-white p-8 lg:p-10">
+              <h3 className="text-xl lg:text-2xl font-bold mb-6">How MultiRiz EduAI Prepares Your Child for Board Exams</h3>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {AI_LEARNING.howItWorks.map((step, i) => (
+                  <div key={i} className="flex gap-4">
+                    <div className="flex-shrink-0 w-9 h-9 rounded-full bg-accent text-accent-foreground font-bold flex items-center justify-center">
+                      {i + 1}
+                    </div>
+                    <div className="text-sm text-white/85 leading-relaxed pt-1.5">{step}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
 
           {/* Teaching approach */}
           <motion.div

@@ -179,48 +179,40 @@ export function HeroSection() {
             </motion.div>
           </div>
 
-          {/* ---------- Right: campus graphic composition ---------- */}
-          <div className="relative hidden lg:block mt-10 lg:mt-0">
-            <div className="relative max-w-md ml-auto">
-              {/* Results showcase card */}
-              <motion.div
-                initial={{ opacity: 0, x: 40 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.9, delay: 0.4 }}
-                className="relative rounded-3xl overflow-hidden shadow-2xl ring-1 ring-white/20 rotate-1"
-              >
-                <div className="relative h-[380px]">
-                  <Image
-                    src="/result.jpeg"
-                    alt="SP International School board results"
-                    fill
-                    sizes="(max-width: 1024px) 0px, 40vw"
-                    className="object-cover"
-                  />
+          {/* ---------- Right: board results ---------- */}
+          <div className="relative mt-10 lg:mt-0 w-full">
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.9, delay: 0.4 }}
+              className="relative rounded-3xl overflow-hidden shadow-2xl ring-1 ring-white/20"
+            >
+              <div className="relative h-[340px] sm:h-[420px] lg:h-[500px]">
+                <Image
+                  src="/result.jpeg"
+                  alt="SP International School board results"
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 45vw"
+                  className="object-cover object-top"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#06301f]/80 via-transparent to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 text-white">
+                  <div className="font-bold text-lg sm:text-2xl leading-tight">100% Board Results</div>
+                  <div className="text-xs sm:text-sm text-accent font-medium">CBSE 12th Exam.</div>
                 </div>
-              </motion.div>
+              </div>
+            </motion.div>
 
-              {/* Floating chip — Konark heritage */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 1 }}
-                className="absolute -right-4 -bottom-6 w-32 h-32 rounded-full bg-white/95 shadow-xl p-3 flex items-center justify-center drift-anim-slow"
-              >
-                <KonarkWheel className="w-full h-full" />
-              </motion.div>
-
-              {/* Floating chip — Toppers */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 1.15 }}
-                className="absolute -left-10 bottom-16 rounded-2xl bg-accent text-accent-foreground shadow-xl px-4 py-2.5 bob-anim"
-              >
-                <div className="font-bold text-sm leading-none">100% Board Results</div>
-                <div className="text-[11px] opacity-80">CBSE 2025-26</div>
-              </motion.div>
-            </div>
+            {/* Floating chip — Konark heritage */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 1 }}
+              className="absolute -right-3 -bottom-5 w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-white/95 shadow-xl p-3 flex items-center justify-center drift-anim-slow"
+            >
+              <KonarkWheel className="w-full h-full" />
+            </motion.div>
           </div>
         </div>
       </div>

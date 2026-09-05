@@ -241,6 +241,184 @@ export const GRADE_OPTIONS = [
 
 export const CAMPUS_OPTIONS = ["City Campus", "Residential Campus"]
 
+export const NEET_JEE_OVERVIEW =
+  "SP International School offers a dedicated NEET & JEE Preparation programme that pairs a strong CBSE board foundation with focused coaching for India's toughest entrance exams. From early foundation batches in Classes 8–10 to full-fledged CBSE-integrated and standalone coaching in Classes 11–12, we help every aspirant study smart, score well and secure a seat in their dream medical or engineering college."
+
+export const NEET_JEE_COURSES = [
+  {
+    title: "Pre-Foundation (Classes 8, 9 & 10)",
+    description:
+      "An early start that builds strong fundamentals in Physics, Chemistry, Mathematics and Biology while CBSE schoolwork proceeds smoothly. Ideal for students who want to begin entrance-exam preparation years in advance, without pressure.",
+    batches: [
+      "Pre-Foundation · Class 8",
+      "Pre-Foundation · Class 9",
+      "Pre-Foundation · Class 10",
+    ],
+    feeNote: "Foundation batches start early so aspirants build speed, accuracy and study discipline from a young age.",
+  },
+  {
+    title: "Option A — CBSE Integrated Batch (Class XI & XII)",
+    description:
+      "Our flagship integrated classroom programme. Students study their full CBSE Class XI–XII syllabus alongside dedicated NEET/JEE coaching, so board prep and entrance prep go hand-in-hand in a single structured batch.",
+    batches: ["Integrated for NEET", "Integrated for JEE"],
+    discount: true,
+    originalFee: 120000,
+    discountedFee: 40000,
+    feeNote: "Complete NEET/JEE coaching integrated with your Class XI & XII CBSE syllabus.",
+  },
+  {
+    title: "Option B — Independent Dropout Batch (Class XI & XII)",
+    description:
+      "For serious aspirants who want maximum focus on entrance exams. This intensive standalone batch concentrates on NEET/JEE preparation with extra practice hours, regular tests and a rigorous daily schedule.",
+    batches: ["Dropout for NEET", "Dropout for JEE"],
+    discount: true,
+    originalFee: 140000,
+    discountedFee: 59000,
+    feeNote: "An intensive, exam-focused dropout batch for full-time NEET/JEE aspirants.",
+  },
+]
+
+export const EXAM_DETAILS = [
+  {
+    acronym: "NEET",
+    fullName: "National Eligibility cum Entrance Test (Undergraduate)",
+    icon: "stethoscope",
+    color: "from-emerald-500 to-teal-700",
+    about:
+      "The single national-level entrance exam for admission to MBBS, BDS, AYUSH (Ayurveda, Homeopathy, Unani, Siddha) and other undergraduate medical courses across India. Conducted by the NTA (National Testing Agency), NEET-UG is a 200-mark, 3-hour 20-minute paper of 180 objective questions covering Physics, Chemistry and Biology (Botany + Zoology).",
+    pattern: "200 questions (180 scored) · Physics 45, Chemistry 45, Biology 90 · +4 / −1 marking",
+    eligibility: "Completed / appearing in Class 12 with Physics, Chemistry, Biology/Biotech and English.",
+  },
+  {
+    acronym: "JEE Main",
+    fullName: "Joint Entrance Examination — Main",
+    icon: "cpu",
+    color: "from-indigo-500 to-purple-700",
+    about:
+      "The national engineering entrance exam for admission to NITs, IIITs, GFTIs and other participating institutions, and the qualifying stage for JEE Advanced. JEE Main Paper 1 (B.E./B.Tech) is a computer-based test of Physics, Chemistry and Mathematics; a separate Paper 2 is for B.Arch / B.Planning. It is conducted in multiple sessions each year, and your best score is considered.",
+    pattern: "Paper 1: 90 questions (75 scored per formula) · Physics 25, Chemistry 25, Maths 25 · +4 / −1",
+    eligibility: "Completed / appearing in Class 12 with Physics, Chemistry and Mathematics.",
+  },
+  {
+    acronym: "JEE Advanced",
+    fullName: "Joint Entrance Examination — Advanced",
+    icon: "rocket",
+    color: "from-rose-500 to-orange-600",
+    about:
+      "The gateway to the prestigious Indian Institutes of Technology (IITs). Only the top candidates who clear JEE Main are eligible to appear for JEE Advanced, which uses a two-paper format with multiple-choice, numerical and multi-correct questions that demand deep conceptual clarity.",
+    pattern: "Two papers, each with sections for Physics, Chemistry & Mathematics · no fixed negative marking formula",
+    eligibility: "Top ~2.5 lakh rank holders from JEE Main who meet age and attempt criteria.",
+  },
+  {
+    acronym: "Other Exams",
+    fullName: "Beyond NEET & JEE",
+    icon: "trophy",
+    color: "from-amber-500 to-orange-700",
+    about:
+      "Beyond NEET and JEE, our students are guided for other competitive pathways too — including OJEE (Odisha Joint Entrance Examination) for state colleges, NATA for architecture, CLAT for law, and CUET, which opens the doors to central universities across India. Our counsellors help every student choose the right exam for their goal.",
+    pattern: "State & national entrance tests across medicine, engineering, law, architecture and university admissions.",
+    eligibility: "Varies by exam — typically Class 12 in relevant streams.",
+  },
+]
+
+export const AI_LEARNING = {
+  title: "AI-Based Learning System with Assessment",
+  headline: "MultiRiz EduAI — Your Personal Learning Companion",
+  intro:
+    "Assessments, practice tests and doubt-clearing that adapt to each student in real time. MultiRiz EduAI is our AI-powered learning and assessment system that personalises preparation for school exams, board examinations and competitive entry tests.",
+  features: [
+    {
+      icon: "brain",
+      title: "Adaptive Practice & Assessment",
+      description:
+        "The AI studies each student's strengths and weak areas and automatically serves questions at the right level, so every practice session targets exactly what needs improvement.",
+    },
+    {
+      icon: "target",
+      title: "Smart Board Exam Preparation",
+      description:
+        "Chapter-wise tests modelled on the CBSE board exam pattern, with instant marking, detailed solutions and predicted marks so students know precisely how exam-ready they are.",
+    },
+    {
+      icon: "chart",
+      title: "Personal Progress Reports",
+      description:
+        "Clear dashboards show progress topic-by-topic for students, teachers and parents — making it easy to see growth and pinpoint where extra help is needed.",
+    },
+    {
+      icon: "clock",
+      title: "24×7 Practice & Doubt Support",
+      description:
+        "Students can practise anywhere, anytime and get instant feedback round the clock — perfect for busy weekends and quick sessions between school and activities.",
+    },
+  ],
+  howItWorks: [
+    "Diagnose — every student begins with an AI-generated baseline assessment.",
+    "Personalise — the AI builds a unique learning path based on their results.",
+    "Practise — targeted questions, chapter tests and mock papers are served daily.",
+    "Improve — instant feedback and review help students close gaps before the real exam.",
+  ],
+}
+
+export const ASSESSMENT_QUESTIONS = [
+  {
+    q: "Which stream or career do you enjoy the most?",
+    options: [
+      { label: "Medicine & Biology — I love Biology and want to be a doctor", value: "NEET" },
+      { label: "Engineering & Maths — I enjoy Physics, Chemistry and Mathematics", value: "JEE" },
+      { label: "I'm still exploring my interests", value: "undecided" },
+    ],
+  },
+  {
+    q: "Which of these do you find most interesting to study?",
+    options: [
+      { label: "The human body, plants and living things", value: "NEET" },
+      { label: "Machines, computers, technology and buildings", value: "JEE" },
+      { label: "Law, design, business or humanities", value: "other" },
+    ],
+  },
+  {
+    q: "How would you like to prepare for your entrance exam?",
+    options: [
+      { label: "Along with my regular school classes (integrated)", value: "integrated" },
+      { label: "Focused, full-time preparation only (dropout batch)", value: "dropout" },
+      { label: "I want to build a strong foundation early", value: "foundation" },
+    ],
+  },
+  {
+    q: "When do you plan to appear for your entrance exam?",
+    options: [
+      { label: "I'm currently in Class 8, 9 or 10", value: "foundation" },
+      { label: "I'm in Class 11 now", value: "class11" },
+      { label: "I'm in Class 12 now", value: "class12" },
+    ],
+  },
+]
+
+export const CAREER_SUGGESTIONS: Record<string, { title: string; text: string }[]> = {
+  NEET: [
+    { title: "NEET Aspirant", text: "You show a strong interest in medicine and biology — the NEET path is a great fit. We recommend joining our Pre-Foundation or CBSE-integrated NEET batch." },
+    { title: "Medical Careers", text: "Doctor (MBBS), Dentist (BDS), Ayurveda, Homoeopathy, Nursing, Pharmacy, Physiotherapy and more open up through NEET." },
+  ],
+  JEE: [
+    { title: "Engineer Aspirant", text: "Your strengths point towards engineering — the JEE path is ideal. Join our Pre-Foundation or integrated JEE batch to build speed and accuracy." },
+    { title: "Engineering Careers", text: "Computer Science, Electronics, Mechanical, Civil, Aeronautical and other branches — plus architecture and technology roles." },
+  ],
+  integrated: [
+    { title: "Balanced Route", text: "You prefer preparing alongside regular school — our CBSE-integrated Option A batch is perfect for you." },
+  ],
+  dropout: [
+    { title: "Focused Route", text: "You want intensive, full-time preparation — our standalone Option B dropout batch gives maximum exam focus." },
+  ],
+  foundation: [
+    { title: "Early Start", text: "Building your foundation now is a smart move. Our Pre-Foundation classes for Classes 8–10 give you a head start." },
+  ],
+  other: [
+    { title: "Explore More", text: "Beyond NEET and JEE, we also guide students for OJEE, CLAT (law), NATA (architecture) and CUET. Contact us to find your best path." },
+    { title: "Get Guidance", text: "Book a session with our counsellors who will help match your interests to the right career and entrance exam." },
+  ],
+}
+
 export const HERITAGE_HIGHLIGHTS = [
   {
     icon: "temple",
