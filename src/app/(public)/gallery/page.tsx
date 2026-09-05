@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Image as ImageIcon, X } from 'lucide-react'
 import { GALLERY_IMAGES } from '@/lib/school-data'
+import { PageHero } from '@/components/public/page-hero'
 import Image from 'next/image'
 
 export const dynamic = 'force-dynamic'
@@ -18,25 +19,16 @@ export default function GalleryPage() {
     : GALLERY_IMAGES.filter((g) => g.category === activeCategory)
 
   return (
-    <div className="py-16 lg:py-24">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-10"
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-            <ImageIcon className="w-4 h-4" />
-            Gallery
-          </div>
-          <h1 className="text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            Life at SP International School
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            A glimpse into our vibrant campus life — learning, playing, creating, and growing together.
-          </p>
-        </motion.div>
+    <div>
+      <PageHero
+        eyebrow="Gallery"
+        icon={<ImageIcon className="w-4 h-4 text-accent" />}
+        title="Life at SP International School"
+        subtitle="A glimpse into our vibrant campus life — learning, playing, creating, and growing together."
+      />
+
+      <div className="py-16 lg:py-24">
+        <div className="container mx-auto px-4">
 
         {/* Category filter */}
         <div className="flex flex-wrap justify-center gap-2 mb-8">
@@ -127,6 +119,7 @@ export default function GalleryPage() {
           </motion.div>
         )}
       </AnimatePresence>
+    </div>
     </div>
   )
 }

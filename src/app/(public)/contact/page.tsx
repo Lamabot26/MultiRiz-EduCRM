@@ -3,30 +3,20 @@
 import { motion } from 'framer-motion'
 import { MapPin, Phone, Mail, Building2, Home, Clock } from 'lucide-react'
 import { SCHOOL, CAMPUSES } from '@/lib/school-data'
-
+import { PageHero } from '@/components/public/page-hero'
 
 export default function ContactPage() {
   return (
-    <div className="py-16 lg:py-24">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-            <MapPin className="w-4 h-4" />
-            Contact Us
-          </div>
-          <h1 className="text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            Get in Touch
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            We have two campuses in Bhubaneswar — a City Campus for day scholars and a Residential
-            Campus for boarding students. Come visit us and experience the SP International difference.
-          </p>
-        </motion.div>
+    <div>
+      <PageHero
+        eyebrow="Contact Us"
+        icon={<MapPin className="w-4 h-4 text-accent" />}
+        title="Get in Touch"
+        subtitle="We have two campuses in Bhubaneswar — a City Campus for day scholars and a Residential Campus for boarding students. Come visit us and experience the SP International difference."
+      />
+
+      <div className="py-16 lg:py-24">
+        <div className="container mx-auto px-4">
 
         {/* Campuses */}
         <div className="grid lg:grid-cols-2 gap-6 mb-10">
@@ -146,6 +136,7 @@ export default function ContactPage() {
           />
         </motion.div>
       </div>
+    </div>
     </div>
   )
 }

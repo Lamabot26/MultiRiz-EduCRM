@@ -252,3 +252,87 @@
 .pulse-glow {
   animation: pulseGlow 3s ease-in-out infinite;
 }
+
+/* =============================================================
+   Heritage & Culture — Bhubaneswar, the Temple City of India
+   Traditional Odia motifs: Konark wheel, temple skyline, rangoli
+   ============================================================= */
+
+/* Spinning Konark sun-wheel */
+@keyframes wheelSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.konark-wheel {
+  animation: wheelSpin 40s linear infinite;
+  transform-origin: center;
+}
+
+/* Floating drift for decorative elements */
+@keyframes drift {
+  0%   { transform: translateY(0px) translateX(0px); }
+  50%  { transform: translateY(-18px) translateX(10px); }
+  100% { transform: translateY(0px) translateX(0px); }
+}
+.drift-anim {
+  animation: drift 7s ease-in-out infinite;
+}
+.drift-anim-slow {
+  animation: drift 11s ease-in-out infinite;
+}
+
+/* Slow gentle bob */
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.bob-anim {
+  animation: bob 5s ease-in-out infinite;
+}
+
+/* Odia-pattern top border strip (rangoli corner diamond) */
+.heritage-strip {
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent), var(--color-primary));
+  background-size: 200% 100%;
+  animation: shimmer 6s ease-in-out infinite;
+  height: 4px;
+}
+
+/* Pattachitra-style scalloped divider fill */
+.pattachitra-divider {
+  background-image: radial-gradient(circle, rgba(180,140,40,0.9) 2px, transparent 2.5px);
+  background-size: 26px 26px;
+}
+
+/* Subtle temple-arch arch frame */
+.temple-arch {
+  border-radius: 9999px 9999px 20px 20px;
+}
+
+/* Reveal text underline sweep */
+@keyframes underlineGrow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+.underline-grow {
+  transform-origin: left;
+  animation: underlineGrow 0.9s ease-out forwards;
+}
+
+/* Slow zoom for hero background imagery */
+@keyframes heroZoom {
+  0%   { transform: scale(1); }
+  100% { transform: scale(1.12); }
+}
+.hero-zoom {
+  animation: heroZoom 22s ease-in-out infinite alternate;
+}
+
+/* Fade-slide-in used by hero strips */
+@keyframes slideUpFade {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.slide-up-fade {
+  animation: slideUpFade 0.7s ease-out both;
+}

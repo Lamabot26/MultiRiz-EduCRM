@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { Compass, FileText, Users, GraduationCap, Calendar, Phone, CheckCircle2 } from 'lucide-react'
 import { ADMISSION_TIMELINE, SCHOOL, GRADE_OPTIONS } from '@/lib/school-data'
+import { PageHero } from '@/components/public/page-hero'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
@@ -34,27 +35,16 @@ const REQUIREMENTS = [
 
 export default function AdmissionsPage() {
   return (
-    <div className="py-16 lg:py-24">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 text-accent-foreground text-sm font-medium mb-4">
-            <Calendar className="w-4 h-4" />
-            Admissions 2026-27
-          </div>
-          <h1 className="text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            Begin Your Child&apos;s Journey
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Admissions are now open for the academic year 2026-27. Follow our simple admission process
-            and give your child the gift of excellence in education.
-          </p>
-        </motion.div>
+    <div>
+      <PageHero
+        eyebrow="Admissions 2026-27"
+        icon={<Calendar className="w-4 h-4 text-accent" />}
+        title="Begin Your Child's Journey"
+        subtitle="Admissions are now open for the academic year 2026-27. Follow our simple admission process and give your child the gift of excellence in education."
+      />
 
+      <div className="py-16 lg:py-24">
+        <div className="container mx-auto px-4">
         {/* Timeline */}
         <div className="max-w-5xl mx-auto mb-20">
           <motion.div
@@ -160,6 +150,7 @@ export default function AdmissionsPage() {
           </motion.div>
         </div>
       </div>
+    </div>
     </div>
   )
 }

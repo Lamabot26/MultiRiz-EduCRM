@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
-import { GRADE_OPTIONS, CAMPUS_OPTIONS } from '@/lib/school-data'
+import { GRADE_OPTIONS, CAMPUS_OPTIONS, SCHOOL } from '@/lib/school-data'
 import { useAppStore } from '@/lib/app-store'
 import { toast } from 'sonner'
 
@@ -34,22 +34,27 @@ export function EnquiryDialog() {
       return
     }
 
+    const subject = encodeURIComponent(
+      `Admission Enquiry — ${form.studentName} (${form.gradeApplied})`
+    )
+    const body = encodeURIComponent(
+      `Admission Enquiry\n\n` +
+      `Student Name: ${form.studentName}\n` +
+      `Parent / Guardian: ${form.parentName}\n` +
+      `Phone: ${form.phone}\n` +
+      `Alternate Phone: ${form.altPhone || '—'}\n` +
+      `Email: ${form.email || '—'}\n` +
+      `Grade Applied For: ${form.gradeApplied}\n` +
+      `Preferred Campus: ${form.campus}\n` +
+      `Address: ${form.address || '—'}\n\n` +
+      `Message:\n${form.message || '—'}`
+    )
+
     setSubmitting(true)
     try {
-      const res = await fetch('/api/enquiry', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      })
-
-      if (!res.ok) {
-        const data = await res.json()
-        throw new Error(data.error || 'Failed to submit')
-      }
-
-      const data = await res.json()
+      window.location.href = `mailto:${SCHOOL.email}?subject=${subject}&body=${body}`
       setSuccess(true)
-      toast.success(`Enquiry submitted! Your Lead ID is ${data.leadId}`)
+      toast.success('Enquiry form ready! Your email client will open to send it.')
       setForm({
         studentName: '',
         parentName: '',
@@ -62,7 +67,7 @@ export function EnquiryDialog() {
         message: '',
       })
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Failed to submit enquiry')
+      toast.error(error instanceof Error ? error.message : 'Failed to open email client')
     } finally {
       setSubmitting(false)
     }

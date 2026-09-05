@@ -7,11 +7,45 @@ export const SCHOOL = {
   tagline1: "Dedicated to Excellence",
   tagline2: "Where Excellence is Habit",
   city: "Bhubaneswar, Odisha",
+  establishedYear: "2021",
+  legacyLine: "Since 2021 — 5 Years of Educational Excellence",
+  heritageLine: "In the heart of Bhubaneswar, the Temple City of India",
   logo: "/school-logo.jpeg",
   phones: ["9040417575", "9556101210", "9337505150"],
   email: "admissions@spinternationalschool.edu.in",
   establishedNote: "Admissions Open for 2026-27",
 }
+
+export const LEGACY_STATS = [
+  { value: "5+", label: "Years of Excellence" },
+  { value: "800+", label: "Happy Students" },
+  { value: "60+", label: "Expert Faculty" },
+  { value: "100%", label: "CBSE Board Results" },
+]
+
+export const DEVELOPMENT_PILLARS = [
+  {
+    icon: "book",
+    title: "Smart Academics",
+    color: "from-primary to-emerald-600",
+    description:
+      "CBSE-aligned curriculum, interactive smart classrooms and mentored board preparation that build deep understanding — not rote learning.",
+  },
+  {
+    icon: "palette",
+    title: "Creative Arts & Culture",
+    color: "from-accent to-amber-600",
+    description:
+      "Odissi dance, music, drama, pattachitra-inspired art, yoga and literary activities that keep our Odia roots alive while sparking creativity.",
+  },
+  {
+    icon: "trophy",
+    title: "Physical Education & Sports",
+    color: "from-rose-500 to-orange-600",
+    description:
+      "Athletics, cricket, football, basketball and indoor games across two sports complexes — building fitness, teamwork and character.",
+  },
+]
 
 export const CAMPUSES = [
   {
@@ -180,33 +214,6 @@ export const PROGRAMMES = [
   },
 ]
 
-export const LEAD_STATUSES = [
-  { value: "NEW", label: "New", color: "bg-blue-100 text-blue-700 border-blue-200" },
-  { value: "CONTACTED", label: "Contacted", color: "bg-amber-100 text-amber-700 border-amber-200" },
-  { value: "VISIT_SCHEDULED", label: "Visit Scheduled", color: "bg-purple-100 text-purple-700 border-purple-200" },
-  { value: "APPLICATION_SUBMITTED", label: "Application Submitted", color: "bg-cyan-100 text-cyan-700 border-cyan-200" },
-  { value: "ADMITTED", label: "Admitted", color: "bg-emerald-100 text-emerald-700 border-emerald-200" },
-  { value: "WAITLISTED", label: "Waitlisted", color: "bg-orange-100 text-orange-700 border-orange-200" },
-  { value: "REJECTED", label: "Not Interested", color: "bg-red-100 text-red-700 border-red-200" },
-]
-
-export const LEAD_SOURCES = [
-  "Website",
-  "Phone Enquiry",
-  "Campus Visit",
-  "Walk-in",
-  "Referral",
-  "Social Media",
-  "Newspaper Ad",
-  "Education Fair",
-]
-
-export const LEAD_PRIORITIES = [
-  { value: "HIGH", label: "High", color: "bg-red-100 text-red-700" },
-  { value: "MEDIUM", label: "Medium", color: "bg-amber-100 text-amber-700" },
-  { value: "LOW", label: "Low", color: "bg-gray-100 text-gray-700" },
-]
-
 export const GRADE_OPTIONS = [
   "Pre-Nursery",
   "Nursery",
@@ -228,8 +235,74 @@ export const GRADE_OPTIONS = [
 
 export const CAMPUS_OPTIONS = ["City Campus", "Residential Campus"]
 
-export const ADMIN_CREDENTIALS = {
-  username: "spisadmin",
-  password: "admin@2026SP",
-  name: "SPIS Administrator",
-}
+export const HERITAGE_HIGHLIGHTS = [
+  {
+    icon: "temple",
+    title: "Rooted in the Temple City",
+    description:
+      "Bhubaneswar, the City of Temples, has been a seat of learning and culture for over a thousand years. Our campus carries that spirit — a blend of modern education and timeless Odia values.",
+  },
+  {
+    icon: "wheel",
+    title: "The Konark Legacy",
+    description:
+      "Inspired by the Sun Temple of Konark and the magnificent wheel of progress, we teach children that excellence is a journey — with every spoke of effort, discipline and character turning together.",
+  },
+  {
+    icon: "culture",
+    title: "Odissi, Yoga & Pattachitra",
+    description:
+      "From classical dance and yoga to the traditional pattachitra art of Odisha, our co-curricular programme celebrates local culture, helping students carry their roots wherever they go.",
+  },
+]
+
+export const TESTIMONIALS = [
+  {
+    quote:
+      "SP International has transformed my son's confidence. The teachers know him personally and his board results speak for themselves. It truly feels like a second home.",
+    name: "Mrs. Swarnalata Behera",
+    role: "Parent of a Class X student",
+  },
+  {
+    quote:
+      "What we love most is the balance — rigorous academics, daily sports, and the wonderful Odia cultural programmes during festivals. It keeps our children connected to their roots.",
+    name: "Mr. Debasis Rout",
+    role: "Parent of a Primary student",
+  },
+  {
+    quote:
+      "The smart classrooms and small class sizes made a visible difference in my daughter's learning. Her teachers are mentors, and the campus is safe and nurturing.",
+    name: "Mrs. Sushree Priyadarshini",
+    role: "Parent of a Middle School student",
+  },
+]
+
+export const ALUMNI_JOURNEY = [
+  {
+    icon: "cap",
+    title: "Higher Education Readiness",
+    description:
+      "Our senior students secure admission into reputed colleges in Bhubaneswar and beyond, carrying with them strong academics and confident communication.",
+  },
+  {
+    icon: "globe",
+    title: "Global Citizens, Odia Values",
+    description:
+      "Alumni shine in careers and communities across the world — yet remain grounded in the values, festivals and traditions of our great state.",
+  },
+  {
+    icon: "heart",
+    title: "A Lifelong School Family",
+    description:
+      "From young alumni mentors to proud parents, the SP International family stays connected and gives back to the next generation of learners.",
+  },
+]
+
+export const MORAL_VALUE_THEMES = [
+  "Respect",
+  "Integrity",
+  "Compassion",
+  "Discipline",
+  "Gratitude",
+  "Curiosity",
+]

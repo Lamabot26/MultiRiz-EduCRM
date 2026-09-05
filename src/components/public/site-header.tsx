@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Shield, Phone } from 'lucide-react'
+import { Menu, X, Phone } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { SCHOOL } from '@/lib/school-data'
 import { useAppStore } from '@/lib/app-store'
@@ -34,6 +34,9 @@ export function SiteHeader() {
 
   return (
     <>
+      {/* Heritage decorative strip */}
+      <div className="heritage-strip" />
+
       {/* Top bar — desktop */}
       <div className="bg-primary text-primary-foreground text-xs sm:text-sm py-2 hidden md:block">
         <div className="container mx-auto px-4 flex items-center justify-between">
@@ -43,10 +46,10 @@ export function SiteHeader() {
               {SCHOOL.phones.join(' · ')}
             </span>
             <span className="text-primary-foreground/70">|</span>
-            <span>CBSE School · Admissions Open 2026-27</span>
+            <span>CBSE School · {SCHOOL.legacyLine}</span>
           </div>
           <div className="flex items-center gap-3 text-primary-foreground/80">
-            <span>Bhubaneswar, Odisha</span>
+            <span>{SCHOOL.heritageLine}</span>
           </div>
         </div>
       </div>
@@ -85,8 +88,11 @@ export function SiteHeader() {
                 <div className="font-bold text-sm lg:text-lg text-primary leading-tight">
                   SP International
                 </div>
-                <div className="text-[10px] lg:text-xs text-muted-foreground font-medium">
+                <div className="text-[10px] lg:text-xs text-muted-foreground font-medium leading-tight">
                   School · Bhubaneswar
+                </div>
+                <div className="text-[9px] lg:text-[11px] text-accent-foreground font-semibold leading-tight mt-0.5">
+                  Est. 2021 · CBSE
                 </div>
               </div>
             </Link>
@@ -108,16 +114,6 @@ export function SiteHeader() {
             </nav>
 
             <div className="flex items-center gap-2">
-              <Link href="/login">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="hidden sm:flex items-center gap-1.5 border-primary/30 text-primary hover:bg-primary/5"
-                >
-                  <Shield className="w-4 h-4" />
-                  Admin Login
-                </Button>
-              </Link>
               <Button
                 onClick={() => setShowEnquiry(true)}
                 size="sm"
@@ -161,12 +157,6 @@ export function SiteHeader() {
                   </Link>
                 ))}
                 <div className="pt-2 border-t border-border flex flex-col gap-2">
-                  <Link href="/login" onClick={() => setMobileOpen(false)}>
-                    <Button variant="outline" size="sm" className="w-full justify-center">
-                      <Shield className="w-4 h-4 mr-1.5" />
-                      Admin Login
-                    </Button>
-                  </Link>
                   <Button
                     onClick={() => {
                       setMobileOpen(false)

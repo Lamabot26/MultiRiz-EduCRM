@@ -1,6 +1,6 @@
 'use client'
 
-import { Phone, Mail, MapPin, Facebook, Instagram, Youtube, Shield } from 'lucide-react'
+import { Phone, Mail, MapPin, Facebook, Instagram, Youtube } from 'lucide-react'
 import { SCHOOL, CAMPUSES } from '@/lib/school-data'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -28,8 +28,9 @@ export function SiteFooter() {
               </div>
             </div>
             <p className="text-sm text-background/70 leading-relaxed mb-4">
-              {SCHOOL.tagline}. A premier CBSE school committed to nurturing excellence through
-              holistic education, modern infrastructure, and values-based learning.
+              {SCHOOL.tagline}. A premier CBSE school in the heart of Bhubaneswar — nurturing
+              excellence through holistic education, modern infrastructure, and values-based learning
+              since {SCHOOL.establishedYear}.
             </p>
             <div className="flex gap-2">
               {[Facebook, Instagram, Youtube].map((Icon, i) => (
@@ -78,7 +79,7 @@ export function SiteFooter() {
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="/admissions" className="text-background/70 hover:text-accent transition-colors">
-                  Admission Process 2026-27
+                  Admission Enquiry
                 </Link>
               </li>
               <li className="text-background/70">
@@ -92,15 +93,6 @@ export function SiteFooter() {
                     {phone}
                   </a>
                 ))}
-              </li>
-              <li>
-                <Link
-                  href="/login"
-                  className="inline-flex items-center gap-1.5 text-background/70 hover:text-accent transition-colors mt-2"
-                >
-                  <Shield className="w-3.5 h-3.5" />
-                  Admin Login
-                </Link>
               </li>
             </ul>
           </div>
@@ -141,7 +133,9 @@ export function SiteFooter() {
           <div className="flex items-center gap-4 text-xs text-background/60">
             <span>CBSE School</span>
             <span>·</span>
-            <span>Admissions Open 2026-27</span>
+            <span>Bhubaneswar, Odisha</span>
+            <span>·</span>
+            <span>Est. {SCHOOL.establishedYear}</span>
           </div>
         </div>
       </div>
