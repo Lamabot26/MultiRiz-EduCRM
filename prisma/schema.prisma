@@ -1,0 +1,16 @@
+// SP International School — minimal Prisma schema for build tooling.
+// The public website does not use a database. This schema exists so the
+// deployment platform's `prisma generate` step (which is hardcoded for this
+// app) can complete against an empty, valid schema.
+//
+// `prisma generate` only reads the schema — it never connects to a database —
+// so a literal sqlite file URL is used to avoid depending on runtime env vars.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
