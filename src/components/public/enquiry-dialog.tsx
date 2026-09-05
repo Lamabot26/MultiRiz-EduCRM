@@ -7,7 +7,9 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
-import { GRADE_OPTIONS, CAMPUS_OPTIONS, SCHOOL } from '@/lib/school-data'
+import { GRADE_OPTIONS, CAMPUS_OPTIONS } from '@/lib/school-data'
+
+const ENQUIRY_EMAIL = 'sphssbbsr@gmail.com'
 import { useAppStore } from '@/lib/app-store'
 import { toast } from 'sonner'
 
@@ -52,7 +54,7 @@ export function EnquiryDialog() {
 
     setSubmitting(true)
     try {
-      window.location.href = `mailto:${SCHOOL.email}?subject=${subject}&body=${body}`
+      window.location.href = `mailto:${ENQUIRY_EMAIL}?subject=${subject}&body=${body}`
       setSuccess(true)
       toast.success('Enquiry form ready! Your email client will open to send it.')
       setForm({

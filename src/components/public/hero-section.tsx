@@ -89,9 +89,7 @@ export function HeroSection() {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="text-4xl xs:text-5xl sm:text-6xl xl:text-7xl font-black leading-[1.05] tracking-tight text-white mb-4"
             >
-              <span className="text-gold-3d">SP International</span>
-              <br />
-              <span className="text-white">School</span>
+              <span className="text-gold-3d">SP International </span><span className="text-white">School</span>
             </motion.h1>
 
             {/* Tagline */}
@@ -184,7 +182,7 @@ export function HeroSection() {
           {/* ---------- Right: campus graphic composition ---------- */}
           <div className="relative hidden lg:block mt-10 lg:mt-0">
             <div className="relative max-w-md ml-auto">
-              {/* Main campus card */}
+              {/* Results showcase card */}
               <motion.div
                 initial={{ opacity: 0, x: 40 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -193,39 +191,12 @@ export function HeroSection() {
               >
                 <div className="relative h-[380px]">
                   <Image
-                    src="https://images.unsplash.com/photo-1564981797816-1043664bf78d?w=900&h=1000&fit=crop"
-                    alt="SP International School smart campus"
+                    src="/result.jpeg"
+                    alt="SP International School board results"
                     fill
                     sizes="(max-width: 1024px) 0px, 40vw"
                     className="object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#06301f]/90 via-transparent to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
-                    <div className="text-xs text-accent font-medium mb-1">
-                      {SCHOOL.heritageLine}
-                    </div>
-                    <div className="text-lg font-bold leading-tight">
-                      Green 2-Acre Campus · Smart Classrooms
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Floating chip — Established since */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.8 }}
-                className="absolute -left-8 top-8 rounded-2xl bg-white/95 shadow-xl px-4 py-3 flex items-center gap-3 bob-anim"
-              >
-                <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
-                  <Award className="w-5 h-5" />
-                </div>
-                <div>
-                  <div className="text-lg font-bold text-foreground leading-none">
-                    Est. {SCHOOL.establishedYear}
-                  </div>
-                  <div className="text-[11px] text-muted-foreground">5 Years of Excellence</div>
                 </div>
               </motion.div>
 

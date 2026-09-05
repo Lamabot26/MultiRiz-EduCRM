@@ -1,9 +1,26 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Linkedin, Mail, Users } from 'lucide-react'
+import { Users } from 'lucide-react'
 import { CORE_TEAM } from '@/lib/school-data'
-import Image from 'next/image'
+
+function initials(name: string) {
+  return name
+    .split(' ')
+    .map((word) => word[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase()
+}
+
+const AVATAR_GRADIENTS = [
+  'from-emerald-600 to-teal-700',
+  'from-amber-500 to-orange-700',
+  'from-rose-500 to-pink-700',
+  'from-indigo-500 to-purple-700',
+  'from-teal-500 to-emerald-800',
+  'from-sky-500 to-indigo-700',
+]
 
 export function CoreTeamSection() {
   return (
@@ -40,30 +57,19 @@ export function CoreTeamSection() {
               whileHover={{ y: -8 }}
               className="group bg-white rounded-2xl overflow-hidden border border-border shadow-sm hover:shadow-xl transition-all"
             >
-              {/* Image */}
-              <div className="relative h-64 overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10">
-                <Image
-                  src={member.image}
-                  alt={member.name}
-                  fill
-                  sizes="100%"
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-
-                {/* Hover icons */}
-                <div className="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity translate-y-2 group-hover:translate-y-0 transition-transform">
-                  <button className="w-9 h-9 rounded-full bg-white/90 text-primary flex items-center justify-center hover:bg-white shadow-lg">
-                    <Linkedin className="w-4 h-4" />
-                  </button>
-                  <button className="w-9 h-9 rounded-full bg-white/90 text-primary flex items-center justify-center hover:bg-white shadow-lg">
-                    <Mail className="w-4 h-4" />
-                  </button>
+              {/* Avatar */}
+              <div className="relative h-52 flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10">
+                <div
+                  className={`w-28 h-28 rounded-full bg-gradient-to-br ${AVATAR_GRADIENTS[i % AVATAR_GRADIENTS.length]} text-white flex items-center justify-center ring-4 ring-white shadow-lg group-hover:scale-110 transition-transform duration-500`}
+                >
+                  <span className="text-4xl font-bold tracking-wide">
+                    {initials(member.name)}
+                  </span>
                 </div>
               </div>
 
               {/* Content */}
-              <div className="p-5">
+              <div className="p-5 text-center">
                 <h3 className="font-bold text-lg text-foreground mb-1">{member.name}</h3>
                 <div className="text-sm text-primary font-medium mb-3">{member.position}</div>
                 <p className="text-sm text-muted-foreground leading-relaxed">{member.bio}</p>

@@ -85,14 +85,11 @@ export function SiteHeader() {
                 />
               </div>
               <div className="text-left">
-                <div className="font-bold text-sm lg:text-lg text-primary leading-tight">
-                  SP International
+                <div className="font-bold text-sm lg:text-lg text-primary leading-tight whitespace-nowrap">
+                  SP International School
                 </div>
                 <div className="text-[10px] lg:text-xs text-muted-foreground font-medium leading-tight">
-                  School · Bhubaneswar
-                </div>
-                <div className="text-[9px] lg:text-[11px] text-accent-foreground font-semibold leading-tight mt-0.5">
-                  Est. 2021 · CBSE
+                  Bhubaneswar · Est. 2021 · CBSE
                 </div>
               </div>
             </Link>

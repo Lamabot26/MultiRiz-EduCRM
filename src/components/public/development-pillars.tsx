@@ -23,7 +23,7 @@ export function DevelopmentPillars() {
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
             <FlaskConical className="w-4 h-4" />
-            Learning @ SP International
+            Learning @ SP International School
           </div>
           <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-3">
             Education Beyond the Classroom

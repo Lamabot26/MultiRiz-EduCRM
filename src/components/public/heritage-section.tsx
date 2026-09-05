@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { Landmark, SunMedium, Palmtree, Sparkles } from 'lucide-react'
 import { HERITAGE_HIGHLIGHTS } from '@/lib/school-data'
+import Image from 'next/image'
 
 const ICON_MAP: Record<string, React.ElementType> = {
   temple: Landmark,
@@ -16,6 +17,19 @@ export function HeritageSection() {
       id="heritage"
       className="py-16 lg:py-24 relative overflow-hidden bg-gradient-to-br from-[#0a3d2e] via-[#0e4a36] to-[#06301f] text-white"
     >
+      {/* Lingaraj Temple background */}
+      <div className="absolute inset-0">
+        <Image
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Lingaraj_Temple_%2C_Bhubaneswar.jpg/1280px-Lingaraj_Temple_%2C_Bhubaneswar.jpg"
+          alt="Lingaraj Temple, Bhubaneswar"
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        {/* Dark overlay so content stays readable */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#06301f]/95 via-[#0a3d2e]/92 to-[#06301f]/96" />
+      </div>
+
       {/* Decorative glow */}
       <div className="absolute inset-0 opacity-20 pointer-events-none">
         <div className="absolute top-10 left-1/4 w-72 h-72 rounded-full bg-accent blur-3xl" />
